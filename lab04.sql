@@ -150,4 +150,32 @@ FROM Student
 WHERE FirstName NOT LIKE N'%Thi%';
 --- LIET KE SINH VIEN CO CHU CAI CUOI CUNG LA I
 SELECT FIRSTNAME +' '+ LASTNAME AS FULLNAME, DAY(BIRTHDAY) AS DAY,GENDER FROM Student WHERE LASTNAME LIKE N'%i'
+--- LIET KE DANH SACH SINH VIEN CO KY TU DAU TIEN CUA TEN NAM TRONG KHOANG TU A DEN M
+GO 
+SELECT 
+    S.StudentId,
+    S.FirstName + ' ' + S.LastName AS FullName,
+    SG.Amount AS Scholarship
+FROM 
+    Student S
+JOIN 
+    StudentGrant SG ON S.StudentId = SG.StudentId
+WHERE LEFT(LASTNAME,1) BETWEEN 'A' AND 'M';
+GO
+---DS SINH VIEN CO TEN NAM TRONG KHOANG TU A DEN M VA DC SAP XEP TANG DAN CUA TEN
+SELECT 
+    S.FirstName + ' ' + S.LastName AS FullName,
+    DAY(S.BirthDay) AS [Day],
+    S.Address,
+    SG.Amount AS Scholarship
+FROM 
+    Student S
+JOIN 
+    StudentGrant SG ON S.StudentId = SG.StudentId
+WHERE 
+    LEFT(S.LastName, 1) BETWEEN 'A' AND 'M'
+ORDER BY 
+    S.LastName ASC, S.FirstName ASC;
+
+
 
