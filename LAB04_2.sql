@@ -298,7 +298,24 @@ WHERE EXISTS (
       AND SV.HOCBONG = SV_TIN.HOCBONG
       AND SV.NOISINH = SV_TIN.NOISINH
 )
+go
+------5.5 cho bt nhung sinh vien khoa anh van chua thi mon co so du lieu
+SELECT * FROM SINHVIEN
+SELECT * FROM KHOA 
+SELECT * FROM MONHOC
+SELECT * FROM KETQUA
 
+-- Danh sách những sinh viên khoa Anh Văn chưa thi môn Cơ sở dữ liệu
+SELECT SV.MASV, SV.TENSV
+FROM SINHVIEN SV
+INNER JOIN KHOA KH ON SV.MAKH = KH.MAKH
+WHERE KH.TENKH = 'Anh Văn' 
+AND SV.MASV NOT IN (
+    SELECT MASV 
+    FROM KETQUA KQ
+    INNER JOIN MONHOC MH ON KQ.MAMH = MH.MAMH
+    WHERE MH.TENMH = 'Cơ sở dữ liệu'
+);
 
 
 
