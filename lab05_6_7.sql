@@ -1,4 +1,4 @@
-------TAO VIEW 
+﻿------TAO VIEW 
 ----CAU 1
 SELECT * FROM SinhVien
 SELECT HOSV+' '+TENSV AS HOTEN ,MAKH,NOISINH,HOCBONG FROM SinhVien WHERE HOCBONG >10000 AND NOISINH =N'Tp. HCM'
@@ -53,4 +53,14 @@ from sinhvien
 WHERE PHAI = 1  AND MAKH =N'AV'
 go
 SELECT  * FROM vw_cau6
---------
+go
+--------cau 7----
+CREATE VIEW vw_cau7
+as
+SELECT HOSV,TENSV,NgaySinh,NoiSinh
+FROM SINHVIEN
+WHERE NOISINH =N'Hà Nội' AND NGAYSINH > CONVERT(DATETIME,'19900101')
+go
+select * from vw_cau7
+go
+------
