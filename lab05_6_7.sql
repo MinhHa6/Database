@@ -44,4 +44,13 @@ as
 select MAMH,TENMH,SOTIET FROM MonHoc WHERE SOTIET BETWEEN 40 AND 60
 GO
 SELECT * FROM vw_monhoc
+--------cau 6- liet ke so hs cua khoa anh van
+go
+CREATE VIEW vw_cau6
+as
+select MaSV,hosv+''+TenSV AS HOTEN,CASE PHAI WHEN 1 THEN N'NAM' ELSE N'NU' END AS GIOITINH
+from sinhvien
+WHERE PHAI = 1  AND MAKH =N'AV'
+go
+SELECT  * FROM vw_cau6
 --------
