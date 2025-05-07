@@ -164,5 +164,14 @@ SELECT KH.MAKH,KH.TENKH,ISNULL(MAX(SV.HOCBONG),0)AS HBMAX FROM KHOA KH
 JOIN SINHVIEN SV ON KH.MaKH = SV.MaKH
 GROUP BY KH.MAKH,KH.TenKH
 go
-
-
+------cau 18-----
+select * from sinhvien 
+select * from monhoc 
+select * from ketqua
+go 
+CREATE VIEW vw_cau18 
+as 
+SELECT COUNT(KQ.MASV) TONG ,KQ.MAMH,MH.TENMH FROM Ketqua KQ
+JOIN MONHOC MH ON KQ.MaMH =MH.MaMH
+GROUP BY KQ.MaMH,MH.TenMH
+go 
