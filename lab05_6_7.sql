@@ -77,3 +77,12 @@ as
 select * from sinhvien
 where phai=1 and makh =N'TH' and ngaysinh > CONVERT(DATETIME,'19860530')
 go
+------cau10 
+CREATE VIEW vw_cau10
+as 
+SELECT HOSV+' ' +TENSV AS HOTEN,CASE PHAI WHEN 1 THEN N'NAM' ELSE N'NU' END AS GIOITINH,
+CONVERT(nvarchar,NgaySinh,111) AS NGAYSINH
+FROM SINHVIEN
+go 
+SELECT * FROM vw_cau10
+GO 
