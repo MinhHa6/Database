@@ -86,3 +86,10 @@ FROM SINHVIEN
 go 
 SELECT * FROM vw_cau10
 GO 
+-----cau11----
+CREATE VIEW vw_cau11
+as
+select MaSV,MaKH,NoiSinh,DATEDIFF(YEAR,NgaySinh,GETDATE())AS TUOI
+from sinhvien
+go
+-------
