@@ -70,4 +70,10 @@ select * from sinhvien
 where phai = 0 and tensv like N'%n%'
 go
 select * from vw_cau8
+go
 -----cau9 
+CREATE VIEW vw_cau9
+as
+select * from sinhvien
+where phai=1 and makh =N'TH' and ngaysinh > CONVERT(DATETIME,'19860530')
+go
