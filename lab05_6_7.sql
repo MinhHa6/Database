@@ -63,4 +63,11 @@ WHERE NOISINH =N'Hà Nội' AND NGAYSINH > CONVERT(DATETIME,'19900101')
 go
 select * from vw_cau7
 go
-------
+------cau 8
+CREATE VIEW vw_cau8
+as 
+select * from sinhvien
+where phai = 0 and tensv like N'%n%'
+go
+select * from vw_cau8
+-----cau9 
