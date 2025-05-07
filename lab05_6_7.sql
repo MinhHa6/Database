@@ -92,4 +92,16 @@ as
 select MaSV,MaKH,NoiSinh,DATEDIFF(YEAR,NgaySinh,GETDATE())AS TUOI
 from sinhvien
 go
--------
+-------cau 12 ---
+SELECT * FROM KHOA
+GO 
+CREATE VIEW vw_cau12
+as
+select hosv +' ' +tensv as HOTEN,DATEDIFF(YEAR,NGAYSINH,GETDATE()) AS TUOI,KH.TENKH FROM SINHVIEN
+JOIN KHOA KH ON SINHVIEN.MaKH =KH.MaKH
+WHERE DATEDIFF(YEAR, NgaySinh, GETDATE()) BETWEEN 20 AND 30;
+go
+select * from vw_cau12
+go
+-------cau 13 ------
+
