@@ -180,11 +180,14 @@ select * from sinhvien
 select * from monhoc 
 select * from ketqua
 go
+CREATE VIEW vw_cau19
+as
 select MH.TENMH,MH.SOTIET,SV.TENSV,KQ.DIEM AS DIEM
 FROM KETQUA KQ
 INNER JOIN MonHoc MH ON KQ.MaMH =MH.MaMH
 INNER JOIN SINHVIEN SV ON KQ.MaSV =SV.MaSV
 INNER JOIN (SELECT MAMH,MAX(DIEM) DIEM FROM KETQUA GROUP BY MaMH) MHMAX ON KQ.MaMH =MHMAX.MaMH AND KQ.DIEM =MHMAX.DIEM
+go
 -------------------------
 SELECT 
     MH.TENMH,
@@ -201,4 +204,23 @@ WHERE
         FROM KETQUA KQ2
         WHERE KQ2.MaMH = KQ.MaMH
     )
-
+----------cau20-----
+select * from sinhvien
+select * from khoa
+go
+CREATE VIEW vw_cau20
+as
+select KH.MAKH,KH.TENKH,COUNT(SV.MASV) AS TONGSOSV FROM KHOA KH
+JOIN SINHVIEN SV ON KH.MaKH = SV.MaKH
+GROUP BY KH.MaKH,KH.TenKH
+HAVING 
+    COUNT(SV.MASV) = (
+        SELECT MAX(TONG) 
+        FROM (
+            SELECT COUNT(SV2.MASV) AS TONG
+            FROM KHOA KH2
+            JOIN SINHVIEN SV2 ON KH2.MaKH = SV2.MaKH
+            GROUP BY KH2.MAKH
+        ) AS Temp
+    )
+go
