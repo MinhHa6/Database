@@ -224,3 +224,7 @@ HAVING
         ) AS Temp
     )
 go
+----------cau21-------
+select kh.tenkh,sv.tensv,max(sv.hocbong) maxhocbong from SinhVien sv
+inner join khoa kh on sv.MaKH=kh.MaKH
+group by kh.TenKH,sv.TenSV
