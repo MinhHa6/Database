@@ -225,6 +225,16 @@ HAVING
     )
 go
 ----------cau21-------
-select kh.tenkh,sv.tensv,max(sv.hocbong) maxhocbong from SinhVien sv
-inner join khoa kh on sv.MaKH=kh.MaKH
-group by kh.TenKH,sv.TenSV
+create view vw_cau21
+as
+SELECT kh.TenKH, sv.TenSV, sv.HocBong
+FROM SinhVien sv
+INNER JOIN Khoa kh ON sv.MaKH = kh.MaKH
+WHERE sv.HocBong = (
+    SELECT MAX(sv2.HocBong)
+    FROM SinhVien sv2
+    WHERE sv2.MaKH = sv.MaKH
+)
+go
+
+
