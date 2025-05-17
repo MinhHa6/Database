@@ -284,3 +284,9 @@ FROM Khoa KH
 INNER JOIN SinhVien SV ON KH.MaKH = SV.MaKH
 GROUP BY KH.MaKH, KH.TenKH
 ORDER BY SoSinhVienNu DESC;
+---------cau 27------
+go
+select SV.HOSV+' '+SV.TENSV HOTEN ,KH.TENKH,(CASE WHEN kq.DIEM >4 THEN N'DAU' ELSE N'ROT'END ) as ketqua from Ketqua KQ
+JOIN SINHVIEN SV ON KQ.MaSV =SV.MaSV
+JOIN KHOA KH ON SV.MaKH =KH.MaKH
+----------CAU 28------------
