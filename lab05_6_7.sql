@@ -265,3 +265,13 @@ INNER JOIN SINHVIEN SV ON KQ.MaSV = SV.MaSV
 INNER JOIN KHOA KH ON SV.MaKH = KH.MaKH
 WHERE KQ.MaMH = 04
 ORDER BY KQ.DIEM ASC
+-------------cau 25 -------
+go
+SELECT TOP 1 kh.MaKH, kh.TenKH, COUNT(*) AS SoNu
+FROM Khoa kh
+JOIN SinhVien sv ON kh.MaKH = sv.MaKH
+WHERE sv.Phai = 1
+GROUP BY kh.MaKH, kh.TenKH
+ORDER BY SoNu DESC
+
+
