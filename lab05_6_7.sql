@@ -273,5 +273,14 @@ JOIN SinhVien sv ON kh.MaKH = sv.MaKH
 WHERE sv.Phai = 1
 GROUP BY kh.MaKH, kh.TenKH
 ORDER BY SoNu DESC
-
-
+-------------cau 26------
+go
+SELECT 
+  KH.MaKH,
+  KH.TenKH,
+  COUNT(SV.MaSV) AS TongSoSinhVien,
+  COUNT(CASE WHEN SV.Phai = 0 THEN 0 END) AS SoSinhVienNu
+FROM Khoa KH
+INNER JOIN SinhVien SV ON KH.MaKH = SV.MaKH
+GROUP BY KH.MaKH, KH.TenKH
+ORDER BY SoSinhVienNu DESC;
