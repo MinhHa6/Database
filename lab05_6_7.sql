@@ -305,3 +305,16 @@ inner join monhoc mh on kq.mamh =mh.mamh
 where NOT EXISTS (SELECT 1 FROM KETQUA KQ2 WHERE MH.MaMH= KQ2.MAMH AND KQ2.DIEM <4)
 GROUP BY KQ.MaMH,MH.TENMH
 ----------CAU 30------
+SELECT * FROM SINHVIEN
+SELECT * FROM KETQUA
+select sv.makh,KH.TENKH FROM Ketqua KQ 
+INNER JOIN SINHVIEN SV ON KQ.MaSV =SV.MaSV
+INNER JOIN KHOA KH ON KH.MaKH =SV.MaKH
+WHERE NOT EXISTS (SELECT 1 FROM KETQUA KQ2 WHERE SV.MaSV =KQ2.MaSV AND KQ2.DIEM<5)
+GROUP BY SV.MAKH,KH.TENKH
+--------- cau 31 -------
+go 
+select kq.mamh,mh.tenmh, COUNT(CASE WHEN kq.diem > 5 THEN 1 END) AS svdau,
+       COUNT(CASE WHEN kq.diem <= 5 THEN 1 END) AS svrot from Ketqua kq
+inner join MonHoc mh on kq.MaMH =mh.MaMH
+group by kq.MaMH,mh.TenMH
