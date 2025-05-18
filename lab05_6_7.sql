@@ -299,3 +299,9 @@ INNER JOIN SINHVIEN SV ON KQ.MaSV=SV.MASV
 WHERE NOT EXISTS (
 SELECT 1 FROM Ketqua KQ
 WHERE SV.MASV= KQ.MASV AND KQ.DIEM<4);
+---------cau 29 --------
+select kq.mamh,mh.tenmh from ketqua kq 
+inner join monhoc mh on kq.mamh =mh.mamh
+where NOT EXISTS (SELECT 1 FROM KETQUA KQ2 WHERE MH.MaMH= KQ2.MAMH AND KQ2.DIEM <4)
+GROUP BY KQ.MaMH,MH.TENMH
+----------CAU 30------
