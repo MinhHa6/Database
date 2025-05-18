@@ -318,3 +318,14 @@ select kq.mamh,mh.tenmh, COUNT(CASE WHEN kq.diem > 5 THEN 1 END) AS svdau,
        COUNT(CASE WHEN kq.diem <= 5 THEN 1 END) AS svrot from Ketqua kq
 inner join MonHoc mh on kq.MaMH =mh.MaMH
 group by kq.MaMH,mh.TenMH
+go
+---------- cau 32 -------
+select kq.mamh,mh.tenmh from Ketqua kq
+inner join monhoc mh on kq.MaMH =mh.MaMH
+group by kq.MaMH,mh.TenMH
+having min(kq.diem)>5
+--------cau 33 ------
+select kq.masv,sv.makh,sv.hosv+' '+sv.tensv hoten from Ketqua kq
+inner join SinhVien sv on kq.masv =sv.MaSV
+group by kq.masv,sv.makh,sv.HoSV,sv.TenSV
+having min(kq.diem)>5
