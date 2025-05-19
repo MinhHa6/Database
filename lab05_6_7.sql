@@ -329,3 +329,14 @@ select kq.masv,sv.makh,sv.hosv+' '+sv.tensv hoten from Ketqua kq
 inner join SinhVien sv on kq.masv =sv.MaSV
 group by kq.masv,sv.makh,sv.HoSV,sv.TenSV
 having min(kq.diem)>5
+-------cau 34 -------
+SELECT 
+    kq.masv, 
+    sv.makh, 
+    sv.hosv + ' ' + sv.tensv AS hoten,
+    COUNT(kq.MaSV) AS SoMonRot
+FROM Ketqua kq
+INNER JOIN SinhVien sv ON kq.masv = sv.masv
+WHERE kq.diem < 5
+GROUP BY kq.masv, sv.makh, sv.hosv, sv.tensv
+HAVING COUNT(kq.MaSV) > 1;
