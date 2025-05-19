@@ -345,3 +345,13 @@ select sv.makh,kh.tenkh,count(*) as tongsosvkh from SinhVien sv
 inner join khoa kh on sv.MaKH =kh.makh
 group by sv.MaKH,kh.tenkh
 having COUNT(*) >2
+-------cau 36------
+SELECT 
+    kq.masv, 
+    sv.makh, 
+    sv.hosv + ' ' + sv.tensv AS hoten,
+    COUNT(kq.MaMH) AS somonthi
+FROM Ketqua kq
+INNER JOIN SinhVien sv ON kq.masv = sv.masv
+GROUP BY kq.masv, sv.makh, sv.hosv, sv.tensv
+HAVING COUNT(kq.MaMH) > 4;
