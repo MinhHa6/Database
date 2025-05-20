@@ -380,3 +380,8 @@ INNER JOIN KetQua kq ON sv.MaSV = kq.MaSV
 inner join Khoa kh on sv.MaKH =kh.MaKH
 GROUP BY sv.MaSV, sv.HoSV, sv.TenSV,kh.TenKH
 having avg(kq.diem)>4;
+---------cau 39 --------
+select kq.mamh,mh.tenmh,avg(kq.diem)as diemtbtungmon from Ketqua kq
+inner join MonHoc mh on kq.MaMH =mh.MaMH
+group by kq.MaMH,mh.TenMH
+having avg(kq.diem) >6
