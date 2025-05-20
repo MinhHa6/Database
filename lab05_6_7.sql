@@ -355,3 +355,16 @@ FROM Ketqua kq
 INNER JOIN SinhVien sv ON kq.masv = sv.masv
 GROUP BY kq.masv, sv.makh, sv.hosv, sv.tensv
 HAVING COUNT(kq.MaMH) > 4;
+-------cau 37------
+select * from SinhVien
+SELECT 
+    kh.makh,
+	kh.TenKH,
+    COUNT(sv.MaSV) AS tsSvNam
+FROM SinhVien sv 
+INNER JOIN Khoa kh ON sv.MaKH =kh.MaKH
+where sv.Phai =1
+GROUP BY 
+    kh.makh,
+	kh.TenKH
+HAVING COUNT(sv.MaSV) > 1;
