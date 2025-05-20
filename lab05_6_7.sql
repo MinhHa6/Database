@@ -368,3 +368,15 @@ GROUP BY
     kh.makh,
 	kh.TenKH
 HAVING COUNT(sv.MaSV) > 1;
+----------cau 38--------
+select * from sinhvien
+SELECT 
+    sv.MaSV,
+	kh.TenKH,
+    sv.HoSV + ' ' + sv.TenSV AS HoTen,
+    AVG(kq.Diem) AS DiemTrungBinh
+FROM SinhVien sv
+INNER JOIN KetQua kq ON sv.MaSV = kq.MaSV
+inner join Khoa kh on sv.MaKH =kh.MaKH
+GROUP BY sv.MaSV, sv.HoSV, sv.TenSV,kh.TenKH
+having avg(kq.diem)>4;
