@@ -340,4 +340,22 @@ WHERE KH.TENKH = 'Tin học'
  ----------5.12-------cac sinh vien co hoc bong cao nhat theo tung khoa 
  SELECT SV.MASV,KH.TENKH,SV.HOCBONG FROM SinhVien SV
  INNER JOIN KHOA KH ON SV.MaKH =KH.MaKH
- INNER JOIN (SELECT MAKH,MAX(HOCBONG) MAXHB FROM SINHVIEN GROUP BY MaKH) MAXHBB ON SV.MaKH = MAXHBB.MAKH AND SV.HocBong = MAXHBB.MAXHB
+ INNER JOIN (SELECT MAKH,MAX(HOCBONG) MAXHB,NoiSinh FROM SINHVIEN GROUP BY MaKH) MAXHBB ON SV.MaKH = MAXHBB.MAKH AND SV.HocBong = MAXHBB.MAXHB
+ ---------cau 5.10 in ra ds sinh vien khoa ly co cung noi sinh sinh voi sinh vien co hoc bong cao nhat
+SELECT SV.MASV, SV.TENSV, SV.NOISINH, KH.TENKH
+FROM SinhVien SV
+JOIN Khoa KH ON SV.MAKH = KH.MAKH
+WHERE KH.TenKH = N'Tin học'
+  AND SV.NOISINH IN (
+      SELECT SV2.NOISINH
+      FROM SinhVien SV2
+      JOIN Khoa KH2 ON SV2.MAKH = KH2.MAKH
+      WHERE KH2.TenKH = N'Tin học'
+        AND SV2.HocBong = (
+            SELECT MAX(HocBong)
+            FROM SinhVien SV3
+            JOIN Khoa KH3 ON SV3.MAKH = KH3.MAKH
+            WHERE KH3.TenKH = N'Tin học'
+        )
+  );
+
