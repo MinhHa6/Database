@@ -316,6 +316,14 @@ AND SV.MASV NOT IN (
     INNER JOIN MONHOC MH ON KQ.MAMH = MH.MAMH
     WHERE MH.TENMH = 'Cơ sở dữ liệu'
 );
-
+----------cau 5.6 danhsach sinh vien KHOA LY CHUA THI MON NAO
+SELECT SV.MASV, SV.TENSV
+FROM SinhVien SV
+JOIN Khoa KH ON SV.MAKH = KH.MAKH
+WHERE KH.TENKH = 'Tin học'
+  AND SV.MASV NOT IN (
+    SELECT DISTINCT MASV
+    FROM KetQua
+  );
 
 
