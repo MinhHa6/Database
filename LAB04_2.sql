@@ -358,4 +358,6 @@ WHERE KH.TenKH = N'Tin học'
             WHERE KH3.TenKH = N'Tin học'
         )
   );
-
+-------6.1
+insert into SinhVien ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh], [MaKH], [HocBong]) values 
+(N'C02',N'LE NGUYEN',N'THANH',1,'1980-10-20',N'HCM',N'TH',8500000)
