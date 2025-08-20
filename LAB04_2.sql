@@ -205,10 +205,85 @@ SELECT * FROM SINHVIEN SV
 INNER JOIN KHOA KH ON SV.MaKH=KH.MaKH
 WHERE TenKH =N'TIN HỌC'
 -------- SU DUNG HAM TRONG TRUY VAN DU LIEU
+----cau1 gioi tinh mo ta duoi dang nam nu tinh tuoi,sap xep theo thu  tu tuoi giam dan 
+select hosv+' '+tensv as hovaten,makh,DATEDIFF(year,ngaysinh,getdate()) as tuoi,
+case when phai=1 then N'nam'
+else N'nu' end gioitinh
+from sinhvien
+order by datediff(year,ngaysinh,GETDATE()) desc
+--------- cau 2 ds sinh vien sinh vao thang 2 nam 1994
+go
+select hosv+' '+tensv as hoten ,phai,day(ngaysinh) ngaysinh
+from SinhVien
+where month(ngaysinh)=2 
+and YEAR(ngaysinh)=1994
+------ cau 3 sap xxep du lieu giam dan theo cot ngay sinh 
+go
+select * from sinhvien 
+order by day(ngaysinh) desc
+-------cau4 hoc bong lon hon 50000 la cao con lai la trung binh 
+go
+SELECT masv, phai, makh,
+       ISNULL(
+           CASE 
+               WHEN hocbong > 500000 THEN N'cao'
+               ELSE N'trungbinh' 
+           END, 
+           N'không có'
+       ) AS MucHocbong
+FROM sinhvien;
+go
+------cau 5 dua diem thi cua sinh vien,hoten va mamon tang dan 
+select sv.HoSV+' '+sv.tensv hoten,kq.diem,kq.mamh
+from sinhvien sv
+join ketqua kq 
+on sv.masv = kq.masv 
+group by sv.HoSV,sv.tensv ,kq.diem,kq.mamh
+order by sv.HoSV+' '+sv.tensv  asc,mamh asc
+----cau 6 ds sinh vien khoa anh van 
+go
+select sv.tensv, case when sv.phai=1 then N'nam' else N'nu' end  as gioitinh,kh.tenkh
+from sinhvien sv 
+join khoa kh
+on sv.MaKH = kh.MaKH
+where kh.TenKH=N'Anh van'
+go
+--- cau 7 liet ke bang diem cua sinh vien khoa tin hoc 
+select * from monhoc
+select *  from khoa
+select * from ketqua
+select kh.tenkh,sv.tensv,mh.tenmh,mh.sotiet,kq.diem
+from Ketqua kq 
+join MonHoc mh
+on kq.MaMH = mh.MaMH
+join sinhvien sv
+on kq.MaSV = sv.MaSV
+join khoa kh
+on sv. MaKH = kh.MaKH
+where kh.TenKH = N'Tin học'
+---- cau 8 ket qua hoc tap cau sinh vien 
+go
+select kh.tenkh,sv.tensv,mh.tenmh,mh.sotiet,case when kq.diem >8 then N'gioi'
+ when kq.diem >=6 and kq.diem <8 then N'kha'
+else N'trungbinh' end as loai
+from Ketqua kq 
+join MonHoc mh
+on kq.MaMH = mh.MaMH
+join sinhvien sv
+on kq.MaSV = sv.MaSV
+join khoa kh
+on sv. MaKH = kh.MaKH
+----- cach ngan gon hon 
+SELECT kh.tenkh, sv.tensv, mh.tenmh, mh.sotiet,
+       IIF(kq.diem > 8, N'giỏi',
+           IIF(kq.diem >= 6, N'khá', N'trung bình')
+       ) AS loai
+FROM Ketqua kq
+JOIN MonHoc mh ON kq.MaMH = mh.MaMH
+JOIN SinhVien sv ON kq.MaSV = sv.MaSV
+JOIN Khoa kh ON sv.MaKH = kh.MaKH;
 
-
-
-
+---- cau4 
 ----bai5.11
 --SINHVIEN :MASV,HOTENSV 
 --KETQUA :DIEM
