@@ -96,6 +96,47 @@ WHERE NGAYSINH BETWEEN CONVERT(DATE,'19680101') AND CONVERT (DATE,'19920605')
  FROM SINHVIEN
  WHERE HOCBONG BETWEEN 20000 AND 800000 
    GO 
+   ------cau 20 nhung mon hoc co so tiet  lon hon 40 va nho hon 
+   select  mamh,tenmh,sotiet
+   from monhoc
+   where sotiet > 40 and sotiet < 60
+   go
+   ---cau 21 liet ke sinh vien nam cua khoa anh van
+   select MaSV,HoSV,tensv,NgaySinh,Phai from sinhvien
+   where makh='av' and Phai=1
+   ----cau 22 ds sinh vien noi sinh hn va ngay sinh sau 1/1/1990
+   go
+   select hosv,tensv,noisinh,ngaysinh
+   from sinhvien
+   where NoiSinh ='HaNoi' and ngaysinh>CONVERT(date,'19900101')
+   --- cau 23 liwt ke sinh vien nu ten co chua chu n
+   go
+   select *
+   from sinhvien
+   where phai=0 and TenSV like '[a-z]%'
+   ---- cau 24 ds cac sinh vien nam khoa tin hoc co ngay sinh sau ngay 30/5/1986
+   go 
+   select * 
+   from sinhvien
+   where makh='th' and ngaysinh >CONVERT(date,'19860530') and phai=0
+   -- cau 25  phan biet gioi tinh true false doi thanh nam nu
+   go 
+   select hosv+' '+tensv hoten, case when phai=1 then N'nam' else N'nu' end as gioitinh
+   from sinhvien
+   go
+   -----cau 26  tinh tuoi hien tai cua sinh vien tu nam hien tai 
+   select masv,noisinh,makh,DATEDIFF(year,ngaysinh,getdate()) as tuoi
+   from SinhVien
+   go 
+   -----cau 27 cho bt sinh vien co tuoi lon hon 20 
+   select hosv+' '+tensv,hocbong,DATEDIFF(year,ngaysinh,getdate()) as tuoi 
+   from sinhvien
+   where DATEDIFF(year,ngaysinh,getdate())>20
+   go
+   ---cau 28 cho bt sinh vien co tuoi tu 20 den 30
+      select hosv+' '+tensv,hocbong,DATEDIFF(year,ngaysinh,getdate()) as tuoi 
+   from sinhvien
+   where DATEDIFF(year,ngaysinh,getdate()) BETWEEN 20 and 30
 -----  BIEU DIEN GIOI TINH DUOI DANG SO NHI PHAN 
 SELECT * ,CASE WHEN PHAI =1 THEN N'NAM'-- WHEN PHAI = 0 THEN N'NU' 
 ELSE N'NU' END AS GIOITINH
@@ -163,6 +204,7 @@ GROUP BY SV.MASV, SV.HOSV, SV.TENSV;
 SELECT * FROM SINHVIEN SV
 INNER JOIN KHOA KH ON SV.MaKH=KH.MaKH
 WHERE TenKH =N'TIN HỌC'
+-------- SU DUNG HAM TRONG TRUY VAN DU LIEU
 
 
 
