@@ -19,17 +19,16 @@ GO
 USE [Lab02]
 GO
 --Khai bao 1 bien Name,va gan gia tri va in ra 
-DECLARE @Name Nvarchar (30)
---GAN GIA  TRI 
-SET @Name = 'MinhHa'
---IN RA TEN BIEN
-SELECT @Name
+declare @Name nvarchar(30)
+set @name =N'Minh Ha'
+select  @Name as ten
 ---KHAI BAO 1 BIEN AGE GAN GIA TRI VA IN RA
 DECLARE @AGE INT 
 SET @AGE =22
 SELECT @AGE
 
 GO
+drop table EMPLOYEE
 ---TAO 1 BANG EMPLOYEE 
  CREATE TABLE EMPLOYEE 
  ( ID INT PRIMARY KEY ,
@@ -39,7 +38,14 @@ GO
  Address NVARCHAR (MAX),
  Email VARCHAR (50),
  Salary FLOAT )
-  
+ go
+ create table custommer
+ (id int primary key,
+ firstName Nvarchar(50))
+go 
+--them cot last name vao custommer
+alter table custommer
+add lastName varchar(50)
   GO
   --THEM COT PHONE CHO BANG EMPLOYEE
   ALTER TABLE EMPLOYEE
@@ -49,7 +55,7 @@ GO
 DELETE FROM EMPLOYEE WHERE ID IN (1, 2, 3, 4, 5);
    --- THEM VAO 5 BAN GGHI DU LIEU
    INSERT INTO EMPLOYEE (ID,FullName,Gender,BirthDay,Address,Email,Salary,Phone) VALUES
-   (1,'VU MINH HA',1,'2003-10-06','ND','minhha1192003@gmail.com',100000000,'0353199540'),
+   (1,'VU MINH HA',1,'2003-08-06','ND','minhha1192003@gmail.com',100000000,'0353199540'),
    (2,'VU MINH HOANG',1,'2003-08-06','NB','minhha1192003@gmail.com',2000000000,'0353199540'),
    (3,'VU MINH HAI',0,'2003-11-06','HN','minhha1192003@gmail.com',400000000,'0353199540'),
    (4,'VU MINH HAN',0,'2003-10-06','HN','minhha1192003@gmail.com',150000000,'0353199540'),
