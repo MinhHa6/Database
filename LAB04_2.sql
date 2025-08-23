@@ -396,16 +396,27 @@ on sv.makh= kh.MaKH
 where sv.makh = N'TH'and sv.HocBong=(select max(sv2.hocbong)hb from SinhVien sv2) 
 ------ cau 14 cho bt sinh sinh vien nao co diem mon co so du lieu cao nhat
 select * from MonHoc
-select sv.tensv,mh.tenmh,kq.diem
+select top 1 sv.tensv,mh.tenmh, kq.diem
 from Ketqua kq 
 join MonHoc mh 
 on kq.MaMH = mh.MaMH
 join sinhvien sv
 on kq.MaSV = sv.MaSV
-where mh.TenMH =N' Cơ sở dữ liệu' and kq.diem=(select max(kq2.diem)  from Ketqua kq2
-join MonHoc mh2 
-on kq2.MaMH = mh2 .MaMH 
- WHERE mh2.TenMH = N'Cơ sở dữ liệu')
+ WHERE mh.TenMH LIKE N'%Cơ sở dữ liệu%'
+ order by kq.diem desc
+ ---- cau 15 diem thi 3 sinh vien co diem thi mon do hoa thap nhat
+ select top 3 sv.tensv,kh.tenkh,mh.tenmh,kq.diem
+ from sinhvien sv
+ join Ketqua kq 
+ on sv.MaSV = kq.masv
+ join MonHoc mh 
+ on kq.MaMH = mh.MaMH
+ join khoa kh 
+ on sv.MaKH = kh.MaKH 
+ where mh.TenMH like  N'%Đồ họa ứng dụng%'
+ order by kq.diem asc
+ ---- cau 16 
+
 
 
 
