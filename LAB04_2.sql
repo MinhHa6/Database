@@ -415,7 +415,14 @@ on kq.MaSV = sv.MaSV
  on sv.MaKH = kh.MaKH 
  where mh.TenMH like  N'%Đồ họa ứng dụng%'
  order by kq.diem asc
- ---- cau 16 
+ ---- cau 16 cho bt khoa nao co sinh vien nu nhat 
+select top 1 kh.tenkh, count(*) as SoLuongNu
+from sinhvien sv
+join khoa kh on sv.MaKH = kh.MaKH
+where sv.phai = 1
+group by kh.tenkh
+order by count(*) desc;
+
 
 
 
