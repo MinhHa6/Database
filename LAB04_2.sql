@@ -283,6 +283,136 @@ JOIN MonHoc mh ON kq.MaMH = mh.MaMH
 JOIN SinhVien sv ON kq.MaSV = sv.MaSV
 JOIN Khoa kh ON sv.MaKH = kh.MaKH;
 
+
+go
+-----Phan 3 tinh toan thong ke du lieu 
+-----cau 1 trung binh diem thi tung mon
+select mh.mamh,mh.tenmh,AVG(kq.diem) tbd
+from Ketqua kq
+join MonHoc mh
+on kq.MaMH = mh.MaMH
+group by mh.MaMH,mh.TenMH
+go
+select * from MonHoc
+select * from khoa
+select * from Ketqua
+-----cau 2 ds so mon thi cua tung sinh vien
+select sv.tensv,kh.tenkh,COUNT( distinct kq.MaMH) tongsomonthi
+from SinhVien sv
+join khoa kh 
+on sv.MaKH =kh.MaKH
+join Ketqua kq
+on sv.MaSV = kq.MaSV
+group by sv.tensv,kh.tenkh
+go
+---- cau 3 tong diem thi cau tung sinh vien 
+select sv.tensv,sv.phai,kh.tenkh,sum(kq.diem)tongdiemthi
+from SinhVien sv 
+join khoa kh 
+on sv.MaKH = kh.MaKH
+join Ketqua kq 
+on sv.MaSV = kq.MaSV
+group by sv.tensv,sv.phai,kh.TenKH
+go 
+------ cau 4 tong so sinh vien cua moi khoa 
+select kh.tenkh,count(sv.masv)tongsvmoikhoa
+from khoa kh 
+join SinhVien sv 
+on kh.MaKH = sv.MaKH
+group by kh.tenkh
+go
+------ cau 5 diem cao nhat cua moi sinh vien 
+select sv.tensv,max(kq.diem) diem
+from sinhvien sv
+join Ketqua kq
+on sv.MaSV = kq.MaSV
+group by sv.TenSV
+go 
+------cau 6 thong tin cua mon hoc co so tiet nhieu nhat 
+select tenmh,sotiet
+from MonHoc
+where Sotiet=(select max(sotiet) from MonHoc)
+------ cau 7 cho bt hoc bong cao nhat cua tung khoa 
+select sv.makh,kh.tenkh,isnull(max(sv.hocbong),0)hocbongcaonhat
+from sinhvien sv
+join khoa kh 
+on sv.MaKH = kh.MaKH
+group by  sv.makh,kh.tenkh
+go
+------ cau 8 cho bt diem cao nhat cua moi mon 
+select mh.tenmh,max(kq.diem)diemcaonhat
+from Ketqua kq 
+join monhoc mh
+on kq.MaMH = mh.mamh
+group by mh.TenMH
+go 
+------cau 9 thong ke so sinh vien hoc cua tung mon 
+select mh.mamh,mh.tenmh,count(kq.masv)sosinhviendanghoc
+from MonHoc mh
+join Ketqua kq
+on mh.MaMH = kq.MaMH
+group by mh.mamh,mh.tenmh
+go
+------ cau 10 cho bt mon nao co diem thi cao nhat 
+SELECT mh.tenmh,
+       mh.sotiet,
+       sv.tensv,
+       kq.diem
+FROM Ketqua kq
+JOIN MonHoc mh ON mh.MaMH = kq.MaMH
+JOIN SinhVien sv ON sv.MaSV = kq.MaSV
+WHERE kq.diem = (
+    SELECT MAX(kq2.diem)
+    FROM Ketqua kq2
+    WHERE kq2.MaMH = kq.MaMH
+);
+------- cau 11 khoa nao co dong sinh vien nhat 
+select top 1 kh.makh,kh.tenkh,count(sv.masv) tongsinhvien
+from khoa kh 
+join sinhvien sv
+on kh.MaKH = sv.MaKH
+group by kh.MaKH,kh.TenKH
+order by count(sv.masv) desc
+go 
+------- cau 12  khoa sinh vien lanh hoc bong cao nhat 
+select kh.tenkh,sv.tensv,sv.hocbong
+from khoa kh 
+join sinhvien sv
+on kh.MaKH = sv.MaKH
+where hocbong=(select max(sv2.HocBong)hb from SinhVien sv2 )
+go
+------ cau 13 sinh vien khoa tin hoc co hoc bong cao nhat
+select top 1 sv.tensv, sv.masv, kh.tenkh, sv.hocbong
+from SinhVien sv
+join Khoa kh
+  on sv.MaKH = kh.MaKH
+where sv.MaKH = N'TH'
+order by sv.hocbong desc;
+ 
+select sv.tensv,sv.masv,kh.tenkh,sv.hocbong hb
+from sinhvien as sv
+join khoa kh
+on sv.makh= kh.MaKH
+where sv.makh = N'TH'and sv.HocBong=(select max(sv2.hocbong)hb from SinhVien sv2) 
+------ cau 14 cho bt sinh sinh vien nao co diem mon co so du lieu cao nhat
+select * from MonHoc
+select sv.tensv,mh.tenmh,kq.diem
+from Ketqua kq 
+join MonHoc mh 
+on kq.MaMH = mh.MaMH
+join sinhvien sv
+on kq.MaSV = sv.MaSV
+where mh.TenMH =N' Cơ sở dữ liệu' and kq.diem=(select max(kq2.diem)  from Ketqua kq2
+join MonHoc mh2 
+on kq2.MaMH = mh2 .MaMH 
+ WHERE mh2.TenMH = N'Cơ sở dữ liệu')
+
+
+
+
+
+
+
 ---- cau4 
 ----bai5.11
 --SINHVIEN :MASV,HOTENSV 
