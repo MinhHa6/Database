@@ -429,7 +429,14 @@ from sinhvien sv
 join khoa kh
 on sv.MaKH = kh.MaKH 
 group by sv.makh,kh.tenkh
-
+------ cau 18 cho bt ket qua hoc tap cua sinh vien kq se la dau neu ko co mon nao diem <4
+select sv.tensv,kh.tenkh,case when min(kq.diem )>=4 then N'dau' else N'truot' end ketqua
+from sinhvien sv
+join khoa kh
+on sv.MaKH = kh.MaKH 
+join Ketqua kq
+on sv.MaSV = kq.masv
+group by sv.tensv,kh.tenkh
 
 
 
