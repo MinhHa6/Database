@@ -437,11 +437,104 @@ on sv.MaKH = kh.MaKH
 join Ketqua kq
 on sv.MaSV = kq.masv
 group by sv.tensv,kh.tenkh
-
-
-
-
-
+--- cau 19 ds nhung sinh ko co mon naof deim nho hon 4
+select sv.tensv, kh.tenkh, sv.phai
+from sinhvien sv
+join khoa kh on sv.MaKH = kh.MaKH
+join Ketqua kq on sv.MaSV = kq.MaSV
+group by sv.tensv, kh.tenkh, sv.phai
+having min(kq.diem) >= 4;
+---- cau 20 cho bt ds nhung mon ko co diem thi <4
+go 
+select kq.mamh,mh.tenmh
+from ketqua kq
+join monhoc mh
+on kq.MaMH = mh.MaMH
+group by kq.mamh,mh.tenmh
+having min(kq.diem)>=4
+go 
+------- cau 21 thong ke khoa nao ko sinh vien rot 
+select sv.makh,kh.tenkh
+from sinhvien sv
+join khoa kh 
+on sv.MaKH = kh.MaKH 
+join Ketqua kq 
+on sv.masv = kq.MaSV 
+group by sv.makh,kh.tenkh
+having min(kq.diem) >= 5
+go
+------ cau 22 thong ke so sinh vien dau va rot cua tung mon 
+SELECT 
+    mh.MaMH,
+    mh.TenMH,
+    SUM(CASE WHEN kq.Diem >= 5 THEN 1 ELSE 0 END) AS SoSinhVienDau,
+    SUM(CASE WHEN kq.Diem < 5 THEN 1 ELSE 0 END) AS SoSinhVienRot
+FROM MonHoc mh
+JOIN KetQua kq 
+    ON mh.MaMH = kq.MaMH
+JOIN SinhVien sv
+    ON kq.MaSV = sv.MaSV
+GROUP BY mh.MaMH, mh.TenMH;
+------ cau 23 cho bt mon nao ko co sinh vien rot 
+select kq.mamh,mh.tenmh
+from monhoc mh 
+join ketqua kq 
+on mh.MaMH = kq .MaMH
+group by kq.mamh,mh.TenMH
+having min(kq.diem)>=4
+------- cau 24 ds sinh vien ko co mon nao rot 
+select sv.masv,sv.tensv,sv.makh
+from sinhvien sv
+join ketqua kq 
+on sv.MaSV = kq.MaSV 
+group by sv.masv,sv.tensv,sv.makh
+having min(kq.diem) >=5
+------ cau 25 ds sinh vien rot tren 2 mon 
+select sv.masv,sv.tensv,sv.makh,SUM(CASE WHEN kq.Diem < 5 THEN 1 ELSE 0 END) AS SoSinhVienRot
+from sinhvien sv 
+join Ketqua kq 
+on sv.MaSV = kq.MaSV
+group by sv.masv,sv.tensv,sv.makh
+having SUM(CASE WHEN kq.Diem < 5 THEN 1 ELSE 0 END) >=2
+------ cau 26 cho bt ds nhung khoa co nhieu hon 10 sinh vien 
+select kh.makh,kh.tenkh,count(sv.makh) tongsosinhviencuakhoa
+from sinhvien sv 
+join khoa kh
+on sv.MaKH = kh.MaKH 
+group by kh.makh,kh.tenkh
+having count(sv.Makh) >=5
+----- cau 27 ds sinh vien thi nhieu hon 4 
+select sv.masv,sv.tensv,count(*)somonthi
+from sinhvien sv
+join ketqua kq 
+on sv.MaSV = kq.MaSV 
+group by sv.MaSV,sv.TenSV
+having count(*) >=4
+------ cau 28 cho bt 5 sinh vien nam tro nen 
+select kh.makh,kh.tenkh,
+count(case when phai =1 then 1  end )tongsosinhviennam
+from sinhvien sv
+join khoa kh 
+on sv.MaKH = kh.MaKH
+group by kh.makh,kh.tenkh
+having count(case when phai =1 then 1  end ) >= 5
+----- cau 29 ds sinh vien co diem trung binh lon hon 4 
+select sv.tensv,kh.tenkh,sv.phai,avg(kq.diem) diemtrungbinhcacmon
+from sinhvien sv
+join khoa kh
+on sv.MaKH = kh.makh
+join ketqua kq 
+on sv.masv = kq.MaSV
+group by sv.tensv,kh.tenkh,sv.phai
+having avg(kq.diem) >4 
+----- cau 30 
+SELECT 
+    sv.MaSV,
+    sv.TenSV,
+    AVG(CASE WHEN kq.Diem > 6 THEN kq.Diem END) AS DiemTrungBinh
+FROM SinhVien sv
+LEFT JOIN KetQua kq ON sv.MaSV = kq.MaSV
+GROUP BY sv.MaSV, sv.TenSV;
 
 
 ---- cau4 
