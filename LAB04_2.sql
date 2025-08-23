@@ -422,7 +422,13 @@ join khoa kh on sv.MaKH = kh.MaKH
 where sv.phai = 1
 group by kh.tenkh
 order by count(*) desc;
+--- cau 17 thong so so sinh vien  theo khoa,tong so sinh vien,tong so sinh vien nu
+select sv.makh,kh.tenkh,count(sv.masv) tongsosinhvien ,    sum(case when sv.phai = 1 then 1 else 0 end) as TongSoSinhVienNu
 
+from sinhvien sv
+join khoa kh
+on sv.MaKH = kh.MaKH 
+group by sv.makh,kh.tenkh
 
 
 
