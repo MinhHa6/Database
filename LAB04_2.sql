@@ -535,6 +535,18 @@ SELECT
 FROM SinhVien sv
 LEFT JOIN KetQua kq ON sv.MaSV = kq.MaSV
 GROUP BY sv.MaSV, sv.TenSV;
+------------------------------------------------------SU DUNG THAM TRONG  TRUY VAN ---------------
+GO 
+---------CCAU 1 CHO BT DS SINH VIEN CUA KHOA MAKHOA LA THAM SO TRUY VAN 
+select * from khoa 
+declare @tenkh Nvarchar(50)
+set @tenkh =N'Anh Văn'
+SELECT sv.MaSV,SV.TENSV,SV.PHAI,KH.TENKH
+FROM sinhvien sv
+JOIN KHOA KH 
+ON SV.MAKH = KH.MAKH
+where kh.TenKH = @tenkh
+
 
 
 ---- cau4 
