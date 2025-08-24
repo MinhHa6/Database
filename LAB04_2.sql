@@ -546,9 +546,31 @@ FROM sinhvien sv
 JOIN KHOA KH 
 ON SV.MAKH = KH.MAKH
 where kh.TenKH = @tenkh
-
-
-
+--------- cau 2 liet ke ds sinh vien co diem mon co so du lieu lon hon so voi bat ki gia tri nao nguoi dung nhap vao 
+declare @diem int 
+set @diem =7
+select sv.masv,sv.tensv,mh.tenmh,kq.diem
+from sinhvien sv
+join ketqua kq 
+on sv.masv = kq.MaSV
+join MonHoc mh 
+on kq.MaMH = mh.MaMH
+where mh.tenmh like N'%Cơ sở dữ liệu%' and kq.Diem >= @diem
+go
+---- cau 3 cho ket qua thi cua sinh vien theo mon 
+declare @tenmon Nvarchar(50)
+set @tenmon =N'Cơ sở dữ liệu'
+select sv.masv,kh.tenkh,mh.tenmh,kq.diem
+from sinhvien sv
+join khoa kh
+on sv.MaKH = kh.MaKH
+join Ketqua kq
+on sv.MaSV = kq.MaSV 
+join MonHoc mh
+on kq.MaMH = mh.MaMH
+where mh.TenMH =@tenmon
+select * from MonHoc
+select * from ketqua
 ---- cau4 
 ----bai5.11
 --SINHVIEN :MASV,HOTENSV 
