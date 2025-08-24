@@ -571,6 +571,7 @@ on kq.MaMH = mh.MaMH
 where mh.TenMH =@tenmon
 select * from MonHoc
 select * from ketqua
+------truy van con 
 ---- cau4 
 ----bai5.11
 --SINHVIEN :MASV,HOTENSV 
