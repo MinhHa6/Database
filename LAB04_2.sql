@@ -639,7 +639,26 @@ where mh.tenmh = N'Đồ họa'
       where sv2.makh = N'TH' and mh2.tenmh = N'Đồ họa'
   );
   -------- cau 8 liet ke sinh vien co tuoi nhat trong khoa anh van 
-
+  --------- cau 9 cho bt sinh vine co hoc bong lon hon tong hoc bong cua sinh vien khoa triet 
+  select sv.masv,sv.tensv,sv.phai,sv.hocbong 
+  from sinhvien sv 
+  where sv.HocBong > (select sum(sv2.hocbong) tong 
+  from SinhVien sv2 where sv2.MaKH =N'Tr'
+  )
+  ---cau 11 ds sinh vien co diem cao nhat ung voi moi mon 
+  select sv.masv,sv.tensv,mh.tenmh,kq.diem 
+  from sinhvien sv
+  join Ketqua kq 
+  on kq.MaSV = sv.MaSV
+  join MonHoc mh 
+  on kq.MaMH = mh.MaMH 
+  where kq.diem = (select max(kq2.diem ) from ketqua kq2 where kq2.MaMH = kq.mamh )
+  ----ca u 12 sinh vien co hoc bong cao nhat theo tung khoa 
+  select sv.masv,kh.tenkh,sv.hocbong
+  from sinhvien sv 
+  join khoa kh 
+  on sv.MaKH = kh.MaKH
+  where sv.hocbong = (select max(sv2.hocbong)hb2 from SinhVien sv2 where sv2.Makh= sv.Makh)
 ----- cau 
 ---- cau4 
 ----bai5.11
