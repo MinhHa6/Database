@@ -607,7 +607,8 @@ WHERE NOT EXISTS (
     WHERE sv.MaKH = kh.MaKH
 );
 ------ cau 5  lay sinh vien khoa anh van chua thi mon co so du lieu
-
+select * from sinhvien
+select * from khoa
 select sv.masv,sv.makh,sv.tensv,sv.phai
 from sinhvien sv
 join khoa kh
@@ -616,6 +617,28 @@ where kh.MaKH = N'AV' and sv.masv not in(select kq.masv
 from Ketqua kq join monhoc mh 
 on kq.MaMH = mh.MaMH 
 where mh.TenMH like '%Cơ sở dữ liệu%')
+---------- cau 6 cho bt mon nao chua co sinh vien khoa triet  
+select mh.mamh,mh.tenmh,mh.sotiet
+from monhoc mh 
+where mh.mamh not in  (select kq.mamh
+from ketqua kq 
+join sinhvien sv 
+on kq.MaSV = sv.MaSV 
+where sv.MaKH = N'Tr')
+----- cau 7 ds nhung sinh vien co diem thi mon do hoa nho hon diem thi mon do hoa nho nhat cua sinhvien khoa tin hoc 
+select sv.masv, sv.tensv, sv.makh, kq.diem
+from sinhvien sv
+join ketqua kq on sv.masv = kq.masv
+join monhoc mh on kq.mamh = mh.mamh
+where mh.tenmh = N'Đồ họa'
+  and kq.diem < (
+      select min(kq2.diem)
+      from ketqua kq2
+      join sinhvien sv2 on kq2.masv = sv2.masv
+      join monhoc mh2 on kq2.mamh = mh2.mamh
+      where sv2.makh = N'TH' and mh2.tenmh = N'Đồ họa'
+  );
+  -------- cau 8 liet ke sinh vien co tuoi nhat trong khoa anh van 
 
 ----- cau 
 ---- cau4 
