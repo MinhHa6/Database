@@ -572,6 +572,52 @@ where mh.TenMH =@tenmon
 select * from MonHoc
 select * from ketqua
 ------truy van con 
+go 
+-- cau 1 ds sinh vien chua thi mon nao 
+SELECT sv.MaSV, sv.TenSV, sv.Phai, sv.MaKH
+FROM SinhVien sv
+WHERE sv.MaSV NOT IN (
+    SELECT kq.MaSV
+    FROM KetQua kq
+);
+---- cau 2 ds nhung sinh vien chua thi mon co so du lieu
+select sv.masv,sv.tensv,sv.makh
+from sinhvien sv 
+where sv.masv not in 
+(select kq.masv 
+from Ketqua kq 
+join monhoc mh 
+on kq.MaMH = mh.MaMH 
+where mh.TenMH like '%Cơ sở dữ liệu%'
+)
+---- cau 3 cho bt mon nao chua co sinh vien thi 
+SELECT mh.MaMH, mh.TenMH, mh.SoTiet
+FROM MonHoc mh
+WHERE mh.MaMH NOT IN (
+    SELECT kq.MaMH
+    FROM KetQua kq
+    JOIN SinhVien sv ON kq.MaSV = sv.MaSV
+);
+------ cau 4 khoa nao chua co sinh vien hoc 
+SELECT kh.MaKH, kh.TenKH
+FROM Khoa kh
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM SinhVien sv
+    WHERE sv.MaKH = kh.MaKH
+);
+------ cau 5  lay sinh vien khoa anh van chua thi mon co so du lieu
+
+select sv.masv,sv.makh,sv.tensv,sv.phai
+from sinhvien sv
+join khoa kh
+on sv.MaKH = kh.MaKH
+where kh.MaKH = N'AV' and sv.masv not in(select kq.masv 
+from Ketqua kq join monhoc mh 
+on kq.MaMH = mh.MaMH 
+where mh.TenMH like '%Cơ sở dữ liệu%')
+
+----- cau 
 ---- cau4 
 ----bai5.11
 --SINHVIEN :MASV,HOTENSV 
