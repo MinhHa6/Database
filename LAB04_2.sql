@@ -899,3 +899,31 @@ select * from deletetable
 delete from deletetable
 where ngaysinh >convert(date,'20020331')
 select * from deletetable
+
+-------------------- cap nhat thong tin trong co so du lieu 
+select * from monhoc
+update MonHoc
+set Sotiet = 45
+where tenmh=N'Tiếng Anh cơ bản'
+--------- cau 6 cong them 5 diem vao mon tri tue nhn tao neu la khoa anh van 
+UPDATE KetQua
+SET Diem = CASE 
+              WHEN Diem + 5 > 10 THEN 10   -- không vượt quá 10
+              ELSE Diem + 5
+           END
+WHERE MaMH IN (SELECT MaMH FROM MonHoc WHERE TenMH = N'Trí Tuệ Nhân Tạo')
+  AND MaSV IN (
+        SELECT sv.MaSV
+        FROM SinhVien sv
+        JOIN Khoa kh ON sv.MaKH = kh.MaKH
+        WHERE kh.TenKH = N'Anh văn'
+  );
+  select * from ketqua
+------update sinhvien tang hk phi theo yeu cau 
+update sinhvien 
+set HocBong =case when 
+phai=0 and makh= N'AV' then HocBong +10000
+when phai=1 and makh=N'TH' then HocBong +150000
+else HocBong +5000
+end;
+select * from sinhvien
