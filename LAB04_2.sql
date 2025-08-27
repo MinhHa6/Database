@@ -878,3 +878,24 @@ WHERE kh.TenKH = N'Tin học'
       WHERE kq.MaSV = sv.MaSV AND kq.MaMH = '06'
   );
   select * from Ketqua
+  -----------------xoa thong tin trong co so du lieu
+  create table deletetable(masv int primary key,
+  tesv nvarchar(50) ,
+  phai bit ,ngaysinh date ,noisinh nvarchar(50),tenkhoa nvarchar(30) ,hocbong float)
+  --tao du kleiu cho bang delete tablke
+  INSERT INTO DeleteTable (MaSV, TeSV, Phai, NgaySinh, NoiSinh, TenKhoa, HocBong)
+VALUES
+(1, N'Nguyễn Văn An', 1, '2002-03-15', N'Hà Nội', N'Tin học', 500000),
+(2, N'Trần Thị Bình', 0, '2001-07-20', N'Hải Phòng', N'Kế toán', 300000),
+(3, N'Lê Văn Cường', 1, '2003-01-10', N'Nam Định', N'Quản trị kinh doanh', 0),
+(4, N'Phạm Thị Dung', 0, '2002-11-05', N'Thanh Hóa', N'Ngôn ngữ Anh', 1000000),
+(5, N'Hoàng Minh Đức', 1, '2001-09-25', N'Nghệ An', N'Tin học', 750000);
+----xao tat ca sinh vien khong co hoc bong 
+DELETE FROM DeleteTable
+WHERE HocBong = 0 OR HocBong IS NULL;
+
+select * from deletetable
+-------xoa tat ca nhung sinh vien sinh sau thang 3 nam 2002
+delete from deletetable
+where ngaysinh >convert(date,'20020331')
+select * from deletetable
