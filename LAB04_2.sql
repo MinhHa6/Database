@@ -856,3 +856,25 @@ WHERE KH.TenKH = N'Tin học'
 insert into SinhVien ([MaSV], [HoSV], [TenSV], [Phai], [NgaySinh], [NoiSinh], [MaKH], [HocBong]) values 
 (N'C02',N'LE NGUYEN',N'THANH',1,'1980-10-20',N'HCM',N'TH',8500000)
 ---------------THEM CO SO DU LIEU ----------------
+go 
+select * from monhoc
+insert into monhoc (MaMH,TenMH,Sotiet) 
+values(10,N'xu ly anh',45)
+------cau 3 theem 1 kjhoa moi 
+insert into khoa (MaKH,TenKH) 
+values (N'CT' ,N'Cong trinh')
+------- cau 4 them mot sinh vien moi
+insert into sinhvien (MaSV,HoSV,TenSV,phai,NgaySinh,NoiSinh,MaKH,HocBong)
+values (N'c2',N'Nguyentran',N'quan',1,convert(date,'20031006'),N'Nd',N'ct',9500000)
+---------cau 5 them vao ban g ket qua 
+INSERT INTO KetQua (MaSV, MaMH, Diem)
+SELECT sv.MaSV, '06', 7
+FROM SinhVien sv
+JOIN Khoa kh ON sv.MaKH = kh.MaKH
+WHERE kh.TenKH = N'Tin học'
+  AND NOT EXISTS (
+      SELECT 1
+      FROM KetQua kq
+      WHERE kq.MaSV = sv.MaSV AND kq.MaMH = '06'
+  );
+  select * from Ketqua
