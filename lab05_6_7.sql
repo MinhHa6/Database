@@ -383,7 +383,23 @@ inner join Khoa kh on sv.MaKH =kh.MaKH
 GROUP BY sv.MaSV, sv.HoSV, sv.TenSV,kh.TenKH
 having avg(kq.diem)>4;
 ---------cau 39 --------
+create view vw_39
+as
 select kq.mamh,mh.tenmh,avg(kq.diem)as diemtbtungmon from Ketqua kq
 inner join MonHoc mh on kq.MaMH =mh.MaMH
 group by kq.MaMH,mh.TenMH
 having avg(kq.diem) >6
+select * from vw_39
+ create view vw_41
+as 
+select kq.mamh,mh.tenmh,avg(kq.diem)as diemtbtungmon from Ketqua kq
+inner join MonHoc mh on kq.MaMH =mh.MaMH
+group by kq.MaMH,mh.TenMH
+having avg(kq.diem) >4
+with check option  
+alter view vw_41 as 
+select kq.mamh,mh.tenmh,avg(kq.diem)as diemtbtungmon from Ketqua kq
+inner join MonHoc mh on kq.MaMH =mh.MaMH
+group by kq.MaMH,mh.TenMH
+having avg(kq.diem) >7
+select * from vw_41
