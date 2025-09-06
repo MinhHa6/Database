@@ -136,3 +136,9 @@ END
 GO
 ---- xoa vat tu @mavattu canxoa @
 exec  spud_VATTU_Xoa @mavtu =N' VT01'
+---------tinh toan trong proce 
+----xay dung thu tuc tinh thanh tien cua vat tu trong mot don dat hang 
+select * from CTDONDH
+select * from DONDH
+select * from VATTU
+create proc spud_dondh_Tinhthanhtien;
