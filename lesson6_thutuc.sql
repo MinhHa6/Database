@@ -43,9 +43,28 @@ ELSE
 SELECT * FROM PXUAT P
 JOIN CTPXUAT T
 ON P.SoPx = T.SoPx
+JOIN VATTU V
+ON T.Mavtu = V.Mavtu
 WHERE P.SoPx =@sophieuxuat
 END
 ------LAY TAT CA PHIEU XUAT NEU KO NHAP J CA 
 EXEC spup_pxuat_bcaopxuat 
 -----LAY PHIEU XUAT KHI NHAP GIA TRI 
 EXEC spup_pxuat_bcaopxuat @sophieuxuat =N'X001'
+DROP PROC  spup_pxuat_bcaopxuat
+go
+------ CAU 5 XAY DUNG THU TUC LIET KE CAC COT DU LIEU TRONG BANG TON KHO
+select * from TONKHO
+go
+CREATE PROC spup_TONKHO_BCaotonkho 
+@namthang nvarchar(6)
+as 
+select k.namthang,v.mavtu,k.SLDau,SLCuoi,TongSLX,k.SLCuoi,v.TenVTu
+from TONKHO k
+join VATTU v
+on k.Mavtu = v.Mavtu
+where @namthang =NamThang
+-------ketqua
+go
+exec spup_TONKHO_BCaotonkho @namthang=N'201401'
+drop proc spup_TONKHO_BCaotonkho
