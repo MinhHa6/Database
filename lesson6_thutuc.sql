@@ -1,4 +1,4 @@
------lay ds bang vat tu 
+﻿-----lay ds bang vat tu 
 select * from VATTU
 go 
 create proc spup_LayDsVatTu
@@ -68,3 +68,47 @@ where @namthang =NamThang
 go
 exec spup_TONKHO_BCaotonkho @namthang=N'201401'
 drop proc spup_TONKHO_BCaotonkho
+--------thu tuc cap nhat du lieu 
+select * from VATTU
+go 
+create proc spud_VatTu_them 
+@mavtu nvarchar(50) ,
+@tenvtu nvarchar(50),
+@dvtinh nvarchar(50)='',
+@phantram int 
+as
+BEGIN
+    -- 1. Kiểm tra trùng mã vật tư
+    IF EXISTS (SELECT 1 FROM VATTU WHERE MaVTU = @mavtu)
+    BEGIN
+        RAISERROR(N'Mã vật tư đã tồn tại!', 16, 1);
+        RETURN;
+    END;
+
+    -- 2. Kiểm tra trùng tên vật tư
+    IF EXISTS (SELECT 1 FROM VATTU WHERE TenVTU = @tenvtu)
+    BEGIN
+        RAISERROR(N'Tên vật tư đã tồn tại!', 16, 1);
+        RETURN;
+    END;
+
+    -- 3. Kiểm tra phần trăm hợp lệ
+    IF @phantram < 0 OR @phantram > 100
+    BEGIN
+        RAISERROR(N'Phần trăm phải từ 0 đến 100!', 16, 1);
+        RETURN;
+    END;
+
+    -- Nếu hợp lệ thì thêm vào
+    INSERT INTO VATTU (MaVTU, TenVTU, DVTinh, PhanTram)
+    VALUES (@mavtu, @tenvtu, @dvtinh, @phantram);
+END;
+GO
+drop proc spud_VatTu_Them 
+------ them vat tu moi 
+EXEC spud_VatTu_Them 
+    @mavtu = 'VT02',
+    @tenvtu = N'Xi măng1',
+    @dvtinh = N'Bao',
+    @phantram = 10;
+	
