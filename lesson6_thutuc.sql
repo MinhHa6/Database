@@ -111,4 +111,28 @@ EXEC spud_VatTu_Them
     @tenvtu = N'Xi măng1',
     @dvtinh = N'Bao',
     @phantram = 10;
-	
+----------xay dung thu tuc xoa mot vat tu trong bang vat tu 
+GO
+CREATE PROC spud_VATTU_Xoa
+    @MaVTu NVARCHAR(50)
+AS
+BEGIN
+    -- Chỉ xóa nếu mã vật tư không tồn tại trong bất kỳ bảng nào
+    IF NOT EXISTS (SELECT 1 FROM CTDONDH WHERE MaVTu = @MaVTu)
+       AND NOT EXISTS (SELECT 1 FROM CTPNHAP WHERE MaVTu = @MaVTu)
+       AND NOT EXISTS (SELECT 1 FROM CTPXUAT WHERE MaVTu = @MaVTu)
+       AND NOT EXISTS (SELECT 1 FROM TONKHO WHERE MaVTu = @MaVTu)
+    BEGIN
+        DELETE FROM VATTU
+        WHERE MaVTu = @MaVTu;
+
+        PRINT N'Xóa vật tư thành công!';
+    END
+    ELSE
+    BEGIN
+        PRINT N'Mã vật tư đang tồn tại trong các bảng khác, không thể xóa!';
+    END
+END
+GO
+---- xoa vat tu @mavattu canxoa @
+exec  spud_VATTU_Xoa @mavtu =N' VT01'
